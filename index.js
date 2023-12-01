@@ -1,15 +1,55 @@
-const contacts = require('./contacts')
+const contacts = require("./contacts");
 
+const invokeAction = async ({ action, id, name, email, phone }) => {
+  switch (action) {
+    case "list":
+      const allContacts = await contacts.listContacts();
+      console.log(allContacts);
+      break;
 
+    case "get":
+      const contact = await contacts.getContactById(id);
+      return console.log(contact);
+    // ... id
 
+    case "add":
+      const newContact = await contacts.addContact({ name, email, phone });
+      return console.log(newContact);
+    // ... name email phone
 
-const invokeAction = async({ action, id, name, email, phone }) => {
-    switch (action) {
-        case "read":
-            const allContacts = await contacts.listContacts();
-            return console.log(allContacts);
-    }
-}
+    case "remove":
+      const removedContact = await contacts.removeContact(id);
+      return console.log(removedContact);
+      // ... id
+      break;
 
-invokeAction({ action: "read" });
-invokeAction({ action: "getContactById", id: "AeHIrLTr6JkxGE6SN-0Rw" });
+    case "updateById":
+      const updatedContact = await contacts.updateByID(id, {
+        name,
+        email,
+        phone,
+      });
+      console.log(updatedContact);
+      break;
+
+    default:
+      console.warn("\x1B[31m Unknown action type!");
+  }
+};
+
+// invokeAction({ action: "list" });
+// invokeAction({ action: "get", id: "AeHIrLTr6JkxGE6SN-0Rw" });
+// invokeAction({
+//   action: "add",
+//   name: "Maryna Aleksandrova",
+//   email: "email@gmail.com",
+//   phone: "1234566",
+// });
+// invokeAction({
+//   action: "updateById",
+//   id: "1j-5zOJNVYG1g_wr3JXFf",
+//   name: "Olga Aleksandrova",
+//   email: "1111email@gmail.com",
+//   phone: "1234566346475675678",
+// });
+// invokeAction({ action: "remove", id: "1j-5zOJNVYG1g_wr3JXFf" });
